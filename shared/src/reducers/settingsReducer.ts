@@ -1,4 +1,3 @@
-import { MixerProtocolPresets } from '../constants/MixerProtocolPresets'
 import {
     SettingsActionTypes,
 } from '../actions/settingsActions'
@@ -282,13 +281,6 @@ export const settings = (
 
             if (!nextState[0].mixers) {
                 nextState = [Object.assign({}, defaultSettingsReducerState[0])]
-            }
-            if (
-                typeof MixerProtocolPresets[
-                    nextState[0].mixers[0].mixerProtocol
-                ] === 'undefined'
-            ) {
-                nextState[0].mixers[0].mixerProtocol = 'genericMidi'
             }
             return nextState
         default:
