@@ -1,7 +1,10 @@
 import path from 'path'
 import { MixerProtocolPresets } from '../../shared/src/constants/MixerProtocolPresets'
 import { MixerRegistry } from '../src/plugins/MixerRegistry'
-import { getPluginPathsFromArgv, loadPlugins } from '../src/plugins/PluginLoader'
+import {
+    getPluginPathsFromArgv,
+    loadPlugins,
+} from '../src/plugins/PluginLoader'
 
 describe('MixerRegistry', () => {
     it('merges plugin presets into getAllPresets and getProtocolList', () => {
@@ -29,7 +32,7 @@ describe('MixerRegistry', () => {
                     },
                     createConnection,
                 },
-            },
+            }
         )
 
         expect(registry.hasPreset('midasMaster')).toBe(true)
@@ -70,7 +73,7 @@ describe('MixerRegistry', () => {
                     },
                     createConnection,
                 },
-            },
+            }
         )
 
         const connection = registry.createConnection('acmeDesk', 0)
@@ -80,10 +83,7 @@ describe('MixerRegistry', () => {
 })
 
 describe('PluginLoader', () => {
-    const fixturePluginPath = path.resolve(
-        __dirname,
-        'fixtures/plugins',
-    )
+    const fixturePluginPath = path.resolve(__dirname, 'fixtures/plugins')
     const previousPluginPath = process.env.SISYFOS_PLUGIN_PATH
     const previousArgv = process.argv
 
@@ -96,7 +96,7 @@ describe('PluginLoader', () => {
         }
     })
 
-    it('loads a Tier 1 plugin from SISYFOS_PLUGIN_PATH', () => {
+    it('loads a plugin from SISYFOS_PLUGIN_PATH', () => {
         process.env.SISYFOS_PLUGIN_PATH = fixturePluginPath
 
         const registry = new MixerRegistry()
@@ -105,7 +105,7 @@ describe('PluginLoader', () => {
 
         expect(registry.hasPreset('testPluginMixer')).toBe(true)
         expect(registry.getProtocol('testPluginMixer').label).toBe(
-            'Test Plugin Mixer',
+            'Test Plugin Mixer'
         )
 
         const connection = registry.createConnection('testPluginMixer', 0)
@@ -113,7 +113,7 @@ describe('PluginLoader', () => {
         expect(typeof connection?.updateMuteState).toBe('function')
     })
 
-    it('loads a Tier 1 plugin from --plugin-path argv', () => {
+    it('loads a plugin from --plugin-path argv', () => {
         delete process.env.SISYFOS_PLUGIN_PATH
         process.argv = [
             'node',
@@ -138,7 +138,7 @@ describe('PluginLoader', () => {
                 '--plugin-path=/plugins/a',
                 '--sisyfos-plugin-path',
                 '/plugins/b',
-            ]),
+            ])
         ).toEqual(['/plugins/a', '/plugins/b'])
     })
 })
