@@ -1,5 +1,9 @@
 name: Prune container images
 
+permissions:
+    contents: read
+    packages: write
+
 on:
     workflow_dispatch:
     schedule:
@@ -18,4 +22,4 @@ jobs:
                 ^main$
                 ^latest$
         secrets:
-            prune-token: ${{ secrets.GHCR_PRUNE_TOKEN }}
+            prune-token: ${{ secrets.GITHUB_TOKEN }}
