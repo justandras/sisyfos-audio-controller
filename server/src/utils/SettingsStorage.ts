@@ -1,12 +1,11 @@
-// Node Modules:
 import fs from 'fs'
 import path from 'path'
-import { homedir, platform as getPlatform } from 'os'
-const platform = getPlatform()
-const homeDir = homedir()
 
 import { store } from '../reducers/store'
 import { checkVersion } from './migrations'
+import { STORAGE_FOLDER } from '../constants/storagePaths'
+
+export { STORAGE_FOLDER } from '../constants/storagePaths'
 
 // Redux:
 import { ChannelActionTypes } from '../../../shared/src/actions/channelActions'
@@ -30,13 +29,6 @@ export interface ShotStorage {
     channelState: Channels
     faderState: Faders
 }
-
-// Linux place in "app"/storage to be backward compatible with Docker containers.
-// Windows and Mac place the storagefolder in home -> sisyfos-storage
-export const STORAGE_FOLDER =
-    platform === 'linux'
-        ? path.resolve(process.cwd(), 'storage')
-        : path.resolve(homeDir, 'sisyfos-storage')
 
 export const loadSettings = (storeRedux: any): Settings => {
     let newSettings = storeRedux.settings[0]
