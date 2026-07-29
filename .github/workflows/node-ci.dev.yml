@@ -40,8 +40,10 @@ jobs:
                       exit 1
                   fi
                   IMAGE_TAG="${SAFE_BRANCH}-${SHORT_SHA}"
+                  IMAGE_NAME="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
                   echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
-                  echo "Using image tag: ${IMAGE_TAG}"
+                  echo "image_name=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+                  echo "Using image tag: ${IMAGE_NAME}:${IMAGE_TAG}"
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
@@ -98,8 +100,4 @@ jobs:
                   context: .
                   push: true
                   provenance: false
-                  tags: ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.image_tag }}
-
-            - name: Report published image
-              run: |
-                  echo "Published ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.image_tag }}"
+                  tags: ${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}
